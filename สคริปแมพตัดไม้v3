@@ -1,0 +1,225 @@
+-- ===================================================
+-- SCRIPT NAME: CRIMSON LT2 HUB v1.0 🩸🖤
+-- THEME: CRIMSON DARK (RED & BLACK)
+-- FEATURES: ALL STORES, ALL TREE TIERS, LOG BRING & AUTO SELL
+-- ===================================================
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- สร้างหน้าต่างสคริปต์หลัก
+local Window = Rayfield:CreateWindow({
+   Name = "CRIMSON LT2 HUB v1.0 🩸🖤",
+   LoadingTitle = "กำลังโหลดระบบ CRIMSON ENGINE...",
+   LoadingSubtitle = "by Assistant AI",
+   ConfigurationSaving = { Enabled = false },
+   Theme = "Crimson" -- โทนสีแดง-ดำ เท่ๆ ดุดัน
+})
+
+-- ฟังก์ชันช่วยวาร์ปแบบปลอดภัย (กันจมดิน / ตกแมพ)
+local function safeTeleport(targetCFrame)
+    local char = game.Players.LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = targetCFrame + Vector3.new(0, 4, 0)
+    end
+end
+
+-- ==================== TAB 1: ไม้ทุกชนิด (ALL TREES BY TIERS) ====================
+local WoodTab = Window:CreateTab("ไม้ทุกชนิด (Tree Tiers)", 4483362458)
+
+-- Tier 1: ระดับตำนาน (Mythical / God Tier)
+WoodTab:CreateSection("🔥 [GOD TIER] ไม้ระดับตำนาน / หายากที่สุด")
+
+local GodTrees = {
+    ["🌌 End Times Wood (ไม้ Phantom/หลุมดำ)"] = "EndTimes",
+    ["🌋 Volcano Wood (ไม้ลาวา/ภูเขาไฟ)"] = "Volcano",
+    ["✨ Gold Swirly Wood (ไม้ทองสว่าง)"] = "Gold",
+    ["💎 Cave Wood (ไม้ถ้ำฟ้า)"] = "Cave"
+}
+
+for name, tag in pairs(GodTrees) do
+    WoodTab:CreateButton({
+        Name = name,
+        Callback = function()
+            local found = false
+            for _, obj in ipairs(workspace:GetChildren()) do
+                if (obj.Name == "TreeRegion" or obj:FindFirstChild("WoodSection")) and string.find(string.lower(obj.Name), string.lower(tag)) then
+                    local part = obj:FindFirstChildWhichIsA("BasePart", true)
+                    if part then safeTeleport(part.CFrame) found = true break end
+                end
+            end
+            if not found then Rayfield:Notify({Title = "CRIMSON NOTIFY", Content = "ไม่พบต้นไม้ หรือระบบยังไม่โหลดฉาก", Duration = 2.5}) end
+        end,
+    })
+end
+
+-- Tier 2: ระดับหายากพิเศษ (Rare Tier)
+WoodTab:CreateSection("❄️ [RARE TIER] ไม้ระดับหายากพิเศษ")
+
+local RareTrees = {
+    ["❄️ Frost Wood (ไม้หิมะ)"] = "Frost",
+    ["🎃 Sinister Wood (ไม้ฟักทอง)"] = "Sinister",
+    ["💀 Spooky Wood (ไม้หัวกะโหลก)"] = "Spooky",
+    ["🟢 Cave Crawler Wood (ไม้ถ้ำเขียว)"] = "CaveCrawler"
+}
+
+for name, tag in pairs(RareTrees) do
+    WoodTab:CreateButton({
+        Name = name,
+        Callback = function()
+            local found = false
+            for _, obj in ipairs(workspace:GetChildren()) do
+                if (obj.Name == "TreeRegion" or obj:FindFirstChild("WoodSection")) and string.find(string.lower(obj.Name), string.lower(tag)) then
+                    local part = obj:FindFirstChildWhichIsA("BasePart", true)
+                    if part then safeTeleport(part.CFrame) found = true break end
+                end
+            end
+            if not found then Rayfield:Notify({Title = "CRIMSON NOTIFY", Content = "ไม่พบต้นไม้ในแผนที่", Duration = 2.5}) end
+        end,
+    })
+end
+
+-- Tier 3: ไม้ตามภูมิประเทศ (Biome Tier)
+WoodTab:CreateSection("🌴 [BIOME TIER] ไม้ประจำโซน / เกาะ")
+
+local BiomeTrees = {
+    ["🐊 Swamp Wood (ไม้หนองน้ำ/ซอมบี้)"] = "Swamp",
+    ["🌴 Palm Wood (ไม้มะพร้าว)"] = "Palm",
+    ["🍂 Koa Wood (ไม้ส้มชายหาด)"] = "Koa",
+    ["🌳 Walnut Wood (ไม้วอลนัท)"] = "Walnut"
+}
+
+for name, tag in pairs(BiomeTrees) do
+    WoodTab:CreateButton({
+        Name = name,
+        Callback = function()
+            local found = false
+            for _, obj in ipairs(workspace:GetChildren()) do
+                if (obj.Name == "TreeRegion" or obj:FindFirstChild("WoodSection")) and string.find(string.lower(obj.Name), string.lower(tag)) then
+                    local part = obj:FindFirstChildWhichIsA("BasePart", true)
+                    if part then safeTeleport(part.CFrame) found = true break end
+                end
+            end
+            if not found then Rayfield:Notify({Title = "CRIMSON NOTIFY", Content = "ไม่พบต้นไม้ในโซนนี้", Duration = 2.5}) end
+        end,
+    })
+end
+
+-- Tier 4: ไม้ทั่วไป (Common Tier)
+WoodTab:CreateSection("🌲 [COMMON TIER] ไม้พื้นฐานทั่วไป")
+
+local CommonTrees = {
+    ["🌲 Pine Wood (ไม้สน)"] = "Pine",
+    ["🌸 Cherry Wood (ไม้เชอร์รี่)"] = "Cherry",
+    ["⚪ Birch Wood (ไม้เบิร์ช)"] = "Birch",
+    ["🌳 Oak Wood (ไม้อก/ปกติ)"] = "Oak"
+}
+
+for name, tag in pairs(CommonTrees) do
+    WoodTab:CreateButton({
+        Name = name,
+        Callback = function()
+            for _, obj in ipairs(workspace:GetChildren()) do
+                if (obj.Name == "TreeRegion" or obj:FindFirstChild("WoodSection")) and string.find(string.lower(obj.Name), string.lower(tag)) then
+                    local part = obj:FindFirstChildWhichIsA("BasePart", true)
+                    if part then safeTeleport(part.CFrame) break end
+                end
+            end
+        end,
+    })
+end
+
+-- ==================== TAB 2: ร้านค้าทั้งหมด (ALL STORES) ====================
+local StoreTab = Window:CreateTab("ร้านค้าทั้งหมด (Stores)", 4483362458)
+
+StoreTab:CreateSection("🏪 รวมวาร์ปหน้าร้านค้าทุกแห่งในแผนที่")
+
+local AllStores = {
+    ["🪓 Woodman's Store (ร้านขายขวาน/อุปกรณ์หลัก)"] = "Woodman",
+    ["🛋️ Fancy Furnishings (ร้านเฟอร์นิเจอร์/ขวาน Silver)"] = "Furniture",
+    ["🚗 Boxed Cars / Land Store (ร้านซื้อที่ดิน & รถยนต์)"] = "Car",
+    ["🔨 Fine Supply Store (ร้านเครื่องมือพิเศษ)"] = "FineSupply",
+    ["🎨 Logic Store (ร้านอุปกรณ์สายไฟ & ลอจิก)"] = "Logic",
+    ["⛵ Shack Store (ร้านค้าบนเกาะ/ชายหาด)"] = "Shack"
+}
+
+for displayName, searchTag in pairs(AllStores) do
+    StoreTab:CreateButton({
+        Name = displayName,
+        Callback = function()
+            local found = false
+            if workspace:FindFirstChild("Stores") then
+                for _, store in ipairs(workspace.Stores:GetChildren()) do
+                    if string.find(store.Name, searchTag) then
+                        local pad = store:FindFirstChild("Counter") or store:FindFirstChild("BuyPad") or store:FindFirstChild("WoodDropoff") or store:FindFirstChildWhichIsA("BasePart")
+                        if pad then
+                            safeTeleport(pad.CFrame)
+                            found = true
+                            Rayfield:Notify({Title = "วาร์ปสำเร็จ!", Content = "เดินทางถึง " .. displayName, Duration = 2})
+                            break
+                        end
+                    end
+                end
+            end
+            if not found then
+                Rayfield:Notify({Title = "ข้อผิดพลาด", Content = "ไม่พบโมเดลร้านค้าในเซิร์ฟเวอร์", Duration = 2.5})
+            end
+        end,
+    })
+end
+
+-- ==================== TAB 3: ดึงไม้ & ขายเงิน (AUTO FARM & LOGS) ====================
+local FarmTab = Window:CreateTab("ดึงไม้ & ขายเงิน (Farm)", 4483362458)
+
+FarmTab:CreateSection("🧲 ระบบจัดการท่อนไม้")
+
+FarmTab:CreateButton({
+   Name = "🧲 ดึงท่อนไม้ที่ตัดแล้วทั้งหมดมาหาตัว",
+   Callback = function()
+        local char = game.Players.LocalPlayer.Character
+        if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+        
+        local count = 0
+        for _, item in ipairs(workspace:GetChildren()) do
+            if item.Name == "Log" or item.Name == "Plank" or item:FindFirstChild("WoodSection") then
+                for _, part in ipairs(item:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CFrame = char.HumanoidRootPart.CFrame + Vector3.new(0, 3, -5)
+                        count = count + 1
+                    end
+                end
+            end
+        end
+        Rayfield:Notify({Title = "CRIMSON HUB", Content = "ดึงไม้ทั้งหมดจำนวน " .. tostring(count) .. " ชิ้นมาที่ตัวแล้ว", Duration = 3})
+   end,
+})
+
+FarmTab:CreateButton({
+   Name = "💰 วาร์ปส่งไม้ทั้งหมดเข้าเครื่องขายเงิน (Dropoff)",
+   Callback = function()
+        local dropoffPart = nil
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj.Name == "WoodDropoff" and obj:IsA("BasePart") then
+                dropoffPart = obj
+                break
+            end
+        end
+
+        if not dropoffPart then
+            Rayfield:Notify({Title = "แจ้งเตือน", Content = "ไม่พบแท่นขาย! กรุณาวาร์ปไป Woodman's Store ก่อน", Duration = 3})
+            return
+        end
+
+        local count = 0
+        for _, item in ipairs(workspace:GetChildren()) do
+            if item.Name == "Log" or item.Name == "Plank" or item:FindFirstChild("WoodSection") or item.Name == "TreeRegion" then
+                for _, part in ipairs(item:GetDescendants()) do
+                    if part:IsA("BasePart") and (part.Name == "Wood" or part.Name == "Main") then
+                        part.CFrame = dropoffPart.CFrame + Vector3.new(0, 4, 0)
+                        count = count + 1
+                    end
+                end
+            end
+        end
+        Rayfield:Notify({Title = "ขายสำเร็จ!", Content = "ส่งไม้จำนวน " .. tostring(count) .. " ชิ้นเข้าจุดขายแล้ว", Duration = 3})
+   end,
+})
