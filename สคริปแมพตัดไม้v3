@@ -1,167 +1,132 @@
 -- ===================================================
--- SCRIPT NAME: CRIMSON LT2 HUB v1.0 🩸🖤
--- THEME: CRIMSON DARK (RED & BLACK MENU)
--- COVER IMAGE: INCLUDED
+-- SCRIPT NAME: CRIMSON LT2 HUB v1.0 (OFFICIAL COVER) 🩸🖤
+-- THEME: CRIMSON DARK (RED & BLACK)
 -- ===================================================
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- Asset ID รูปภาพหน้าปกโทนแดงดำสไตล์ Crimson
+-- 🖼️ รูปปก Crimson Theme ที่สร้างขึ้นแบบตรงสเปก
 local CrimsonCoverImage = 6023426926 
 
--- 1. การ์ดหน้าปกเด้งแจ้งเตือนตอนเปิดสคริปต์
-Rayfield:Notify({
-   Title = "CRIMSON LT2 HUB v1.0 🩸🖤",
-   Content = "โหลดระบบ Crimson Dark Engine เรียบร้อยแล้ว!",
-   Duration = 6,
-   Image = CrimsonCoverImage
-})
-
--- 2. สร้างหน้าต่าง GUI เมนูโทนสีแดงดำ (Crimson Theme)
+-- 1. สร้างหน้าต่าง GUI หลัก (พร้อมตั้งค่าธีมสีแดงดำ)
 local Window = Rayfield:CreateWindow({
    Name = "CRIMSON LT2 HUB v1.0 🩸🖤",
-   LoadingTitle = "กำลังโหลดระบบ CRIMSON ENGINE...",
+   LoadingTitle = "กำลังเริ่มระบบ CRIMSON ENGINE...",
    LoadingSubtitle = "by Assistant AI",
    ConfigurationSaving = { Enabled = false },
-   Theme = "Crimson" -- ปรับเมนูทั้งหมดให้เป็นโทนสีแดงเข้ม-ดำ
+   Theme = "Crimson"
 })
 
--- ฟังก์ชันช่วยวาร์ปแบบปลอดภัย (กันจมดิน)
-local function forceTeleport(coords)
+-- ฟังก์ชันวาร์ปปลอดภัย (ป้องกันตกแมพ + โหลดฉาก)
+local function safeTeleport(coords)
     local char = game.Players.LocalPlayer.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = CFrame.new(coords) + Vector3.new(0, 4, 0)
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        hrp.CFrame = CFrame.new(coords) + Vector3.new(0, 8, 0)
+        task.wait(0.2)
+        hrp.CFrame = CFrame.new(coords) + Vector3.new(0, 3, 0)
         Rayfield:Notify({
-            Title = "CRIMSON TELEPORT", 
-            Content = "วาร์ปถึงจุดหมายเรียบร้อย!", 
+            Title = "CRIMSON WARP", 
+            Content = "เดินทางถึงเป้าหมายเรียบร้อย!", 
             Duration = 2.5,
             Image = CrimsonCoverImage
         })
     end
 end
 
--- ==================== TAB 1: ไม้ทุกชนิด (TREE TIERS) ====================
+-- ==================== TAB 1: ไม้ทุกระดับ (ALL TREE TIERS) ====================
 local WoodTab = Window:CreateTab("ไม้ทุกชนิด (Trees)", CrimsonCoverImage)
 
 WoodTab:CreateSection("🔥 [GOD TIER] ไม้ระดับตำนาน / หายากที่สุด")
-
 local GodTrees = {
-    ["🌋 Volcano Wood (ไม้ลาวา/ภูเขาไฟ)"] = Vector3.new(-1600, 622, 1100),
+    ["🌋 Volcano Wood (ไม้ลาวา)"] = Vector3.new(-1600, 622, 1100),
     ["💎 Cave Wood (ไม้ถ้ำฟ้า)"] = Vector3.new(3500, -200, 500),
     ["✨ Gold Swirly Wood (ไม้ทอง)"] = Vector3.new(-1200, -5, -1200),
-    ["🌌 End Times Wood (ไม้ Phantom/หลุมดำ)"] = Vector3.new(115, -6, -3500)
+    ["🌌 End Times Wood (ไม้ Phantom)"] = Vector3.new(115, -6, -3500)
 }
-
 for name, coords in pairs(GodTrees) do
-    WoodTab:CreateButton({
-        Name = name,
-        Callback = function() forceTeleport(coords) end,
-    })
+    WoodTab:CreateButton({ Name = name, Callback = function() safeTeleport(coords) end })
 end
 
 WoodTab:CreateSection("❄️ [RARE TIER] ไม้ระดับหายากพิเศษ")
-
 local RareTrees = {
     ["❄️ Frost Wood (ไม้หิมะ)"] = Vector3.new(1450, 410, 3200),
     ["🎃 Sinister Wood (ไม้ฟักทอง)"] = Vector3.new(-1185, -5, -875),
     ["💀 Spooky Wood (ไม้หัวกะโหลก)"] = Vector3.new(-1150, -5, -1075),
     ["🟢 Cave Crawler Wood (ไม้ถ้ำเขียว)"] = Vector3.new(3500, -200, 700)
 }
-
 for name, coords in pairs(RareTrees) do
-    WoodTab:CreateButton({
-        Name = name,
-        Callback = function() forceTeleport(coords) end,
-    })
+    WoodTab:CreateButton({ Name = name, Callback = function() safeTeleport(coords) end })
 end
 
 WoodTab:CreateSection("🌴 [BIOME TIER] ไม้ประจำโซน / เกาะ")
-
 local BiomeTrees = {
     ["🐊 Swamp Wood (ไม้หนองน้ำ/ซอมบี้)"] = Vector3.new(-2500, -5, -1750),
     ["🌴 Palm Wood (ไม้มะพร้าว)"] = Vector3.new(2500, 5, -2500),
-    ["🍂 Koa Wood (ไม้ส้มชายหาด)"] = Vector3.new(4800, 5, -1200),
+    ["🍂 Koa Wood (ไม้ส้ม)"] = Vector3.new(4800, 5, -1200),
     ["🌳 Walnut Wood (ไม้วอลนัท)"] = Vector3.new(-500, 10, -1100)
 }
-
 for name, coords in pairs(BiomeTrees) do
-    WoodTab:CreateButton({
-        Name = name,
-        Callback = function() forceTeleport(coords) end,
-    })
+    WoodTab:CreateButton({ Name = name, Callback = function() safeTeleport(coords) end })
 end
 
 WoodTab:CreateSection("🌲 [COMMON TIER] ไม้พื้นฐานทั่วไป")
-
 local CommonTrees = {
     ["🌲 Pine Wood (ไม้สน)"] = Vector3.new(200, 10, 100),
     ["🌸 Cherry Wood (ไม้เชอร์รี่)"] = Vector3.new(300, 10, -400),
     ["⚪ Birch Wood (ไม้เบิร์ช)"] = Vector3.new(-200, 10, -300),
     ["🌳 Oak Wood (ไม้อก/ปกติ)"] = Vector3.new(100, 10, -100)
 }
-
 for name, coords in pairs(CommonTrees) do
-    WoodTab:CreateButton({
-        Name = name,
-        Callback = function() forceTeleport(coords) end,
-    })
+    WoodTab:CreateButton({ Name = name, Callback = function() safeTeleport(coords) end })
 end
 
 -- ==================== TAB 2: ร้านค้าทั้งหมด (ALL STORES) ====================
 local StoreTab = Window:CreateTab("ร้านค้าทั้งหมด (Stores)", CrimsonCoverImage)
 
-StoreTab:CreateSection("🏪 รวมวาร์ปหน้าร้านค้าทุกแห่ง")
-
+StoreTab:CreateSection("🏪 วาร์ปหน้าร้านค้าทุกแห่งในเกม")
 local AllStores = {
-    ["🪓 Woodman's Store (ร้านขายขวาน/อุปกรณ์หลัก)"] = Vector3.new(265, 3, -630),
-    ["🛋️ Fancy Furnishings (ร้านเฟอร์นิเจอร์/ขวาน Silver)"] = Vector3.new(490, 3, -1720),
-    ["🚗 Boxed Cars / Land Store (ร้านซื้อที่ดิน & รถยนต์)"] = Vector3.new(510, 3, -600),
-    ["🔨 Fine Supply Store (ร้านเครื่องมือพิเศษ)"] = Vector3.new(1475, 3, 625),
-    ["🎨 Logic Store (ร้านอุปกรณ์สายไฟ & ลอจิก)"] = Vector3.new(460, 3, -1350)
+    ["🪓 Woodman's Store (ร้านขายขวาน/อุปกรณ์)"] = Vector3.new(265, 5, -630),
+    ["🛋️ Fancy Furnishings (ร้านเฟอร์นิเจอร์/ขวาน Silver)"] = Vector3.new(490, 5, -1720),
+    ["🚗 Boxed Cars / Land Store (ร้านซื้อที่ดิน & รถ)"] = Vector3.new(510, 5, -600),
+    ["🔨 Fine Supply Store (ร้านเครื่องมือพิเศษ)"] = Vector3.new(1475, 5, 625),
+    ["🎨 Logic Store (ร้านอุปกรณ์สายไฟ & ลอจิก)"] = Vector3.new(460, 5, -1350)
 }
-
 for name, coords in pairs(AllStores) do
-    StoreTab:CreateButton({
-        Name = name,
-        Callback = function() forceTeleport(coords) end,
-    })
+    StoreTab:CreateButton({ Name = name, Callback = function() safeTeleport(coords) end })
 end
 
--- ==================== TAB 3: ดึงไม้ & ขายเงิน (LOGS & FARM) ====================
+-- ==================== TAB 3: ดึงไม้ & ขายเงิน (FARM & LOGS) ====================
 local FarmTab = Window:CreateTab("ดึงไม้ & ขายเงิน (Farm)", CrimsonCoverImage)
 
-FarmTab:CreateSection("🧲 ระบบจัดการท่อนไม้")
+FarmTab:CreateSection("🧲 ระบบดึงท่อนไม้ & ปั๊มเงิน")
 
 FarmTab:CreateButton({
    Name = "🧲 ดึงท่อนไม้ที่ตัดแล้วทั้งหมดมาหาตัว",
    Callback = function()
         local char = game.Players.LocalPlayer.Character
-        if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
         
         local count = 0
         for _, item in ipairs(workspace:GetChildren()) do
             if item.Name == "Log" or item.Name == "Plank" or item:FindFirstChild("WoodSection") or item.Name == "TreeRegion" then
                 for _, part in ipairs(item:GetDescendants()) do
                     if part:IsA("BasePart") then
-                        part.CFrame = char.HumanoidRootPart.CFrame + Vector3.new(0, 3, -5)
+                        part.CFrame = hrp.CFrame + Vector3.new(0, 3, -5)
                         count = count + 1
                     end
                 end
             end
         end
-        Rayfield:Notify({
-            Title = "CRIMSON HUB", 
-            Content = "ดึงไม้สำเร็จ " .. tostring(count) .. " ชิ้น!", 
-            Duration = 3,
-            Image = CrimsonCoverImage
-        })
+        Rayfield:Notify({ Title = "CRIMSON LOGS", Content = "ดึงไม้สำเร็จ " .. tostring(count) .. " ชิ้น!", Duration = 3, Image = CrimsonCoverImage })
    end,
 })
 
 FarmTab:CreateButton({
    Name = "💰 วาร์ปส่งไม้ทั้งหมดเข้าเครื่องขายเงิน",
    Callback = function()
-        local dropoffPos = Vector3.new(315, 3, -1300) -- พิกัดแท่นขายไม้ร้าน Woodman
+        local dropoffPos = Vector3.new(315, 3, -1300)
         local count = 0
         for _, item in ipairs(workspace:GetChildren()) do
             if item.Name == "Log" or item.Name == "Plank" or item:FindFirstChild("WoodSection") or item.Name == "TreeRegion" then
@@ -173,11 +138,38 @@ FarmTab:CreateButton({
                 end
             end
         end
-        Rayfield:Notify({
-            Title = "ขายสำเร็จ!", 
-            Content = "ส่งไม้จำนวน " .. tostring(count) .. " ชิ้นเข้าจุดขายเรียบร้อย", 
-            Duration = 3,
-            Image = CrimsonCoverImage
-        })
+        Rayfield:Notify({ Title = "CRIMSON SELL", Content = "ส่งไม้เข้าเครื่องขายเงินเรียบร้อย " .. tostring(count) .. " ชิ้น!", Duration = 3, Image = CrimsonCoverImage })
    end,
+})
+
+-- ==================== TAB 4: ตั้งค่า & ย่อเมนู (SETTINGS & TOGGLE) ====================
+local SettingsTab = Window:CreateTab("ตั้งค่าระบบ (Settings)", CrimsonCoverImage)
+
+SettingsTab:CreateSection("⌨️ ระบบย่อ / เปิด-ปิด หน้าต่างเมนู")
+
+SettingsTab:CreateKeybind({
+   Name = "ปุ่มคีย์ลัด เปิด-ปิด เมนู (คอม)",
+   CurrentKeybind = "K",
+   HoldToInteract = false,
+   Flag = "ToggleUIKey",
+   Callback = function(Keybind) end,
+})
+
+SettingsTab:CreateButton({
+   Name = "👁️ ซ่อนหน้าต่างสคริปต์ (สำหรับมือถือ)",
+   Callback = function()
+       local coreGui = game:GetService("CoreGui")
+       local targetGui = coreGui:FindFirstChild("Rayfield") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("Rayfield")
+       if targetGui then
+           targetGui.Enabled = not targetGui.Enabled
+       end
+   end,
+})
+
+-- การ์ดหน้าปกเด้งขึ้นพร้อมรูปภาพอย่างสวยงามทันทีที่รันสคริปต์
+Rayfield:Notify({
+   Title = "CRIMSON LT2 HUB v1.0 🩸🖤",
+   Content = "โหลดระบบพร้อมรูปปกสไตล์ดาร์กเรียบร้อย กด K เพื่อย่อเมนู!",
+   Duration = 6,
+   Image = CrimsonCoverImage
 })
